@@ -10,7 +10,7 @@ class ClientController extends Controller
 {
     public function index() // Define the index method to display the list of tasks
     {
-       $client = client::all(); // Retrieve all tasks from the database
+       $client = Client::all(); // Retrieve all tasks from the database
         return view('index'); // Return the 'tasks.index' view with the retrieved tasks
     }
 
