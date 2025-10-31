@@ -32,3 +32,6 @@ EXPOSE 80
 
 # Start Apache server
 CMD ["apache2-foreground"]
+# Copy .env into container
+COPY .env /var/www/html/.env
+
