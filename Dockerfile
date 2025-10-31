@@ -4,19 +4,19 @@ FROM php:8.2-apache
 # Install required system dependencies
 RUN apt-get update && apt-get install -y \
     git unzip libpq-dev libzip-dev zip curl \
-    && docker-php-ext-install pdo pdo_mysql zip
+    && docker-php-ext-install pdo pdo_pgsql zip mbstring
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
+
+# Set working directory
+WORKDIR /var/www/html
 
 # Copy project into container
 COPY . /var/www/html
 
 # Set Apache DocumentRoot to Laravel's public folder
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
-
-# Set working directory
-WORKDIR /var/www/html
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -32,6 +32,3 @@ EXPOSE 80
 
 # Start Apache server
 CMD ["apache2-foreground"]
-# Copy .env into container
-COPY .env /var/www/html/.env
-
